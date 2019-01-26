@@ -1,0 +1,16 @@
+{
+  "name": "processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.json",
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "nodemon": "1.18.9",
+    "redis": "2.8.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
