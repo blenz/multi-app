@@ -1,0 +1,41 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - '4000:80'
+    depends_on:
+      - "client"
+      - "api"
+    restart: 'always'
+  postgres:
+    image: 'postgres:latest'
+  redis:
+    image: 'redis:latest'
+  api:
+    build: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    depends_on:
+      - "postgres"
+      - "redis"
+    env_file:
+      ./.env
+  client:
+    build: ./client
+    volumes:
+    - /app/node_modules
+    - ./client:/app
+    depends_on:
+    - "api"
+  processor:
+    build: ./processor
+    volumes:
+    - /app/node_modules
+    - ./processor:/app
+    env_file:
+      ./.env
+    depends_on:
+    - "api"
+    - "redis"
