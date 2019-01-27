@@ -47,12 +47,16 @@ app.get('/values/current', async (req, res) => {
 
 app.post('/values', async (req, res) => {
     
-    const { index } = req.body;
+    let index = parseInt(req.body.index);
 
-    if (parseInt(index) > 40) {
+    if (index > 40) {
         return res
                 .status(422)
                 .send('Index too high');
+    } else if (index < 0){
+        return res
+                .status(422)
+                .send('Cannot be less than 0');
     }
 
     
