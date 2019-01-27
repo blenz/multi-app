@@ -11,14 +11,14 @@ const redisSub = redisClient.duplicate();
 
 
 function fib(index) {
-    if (index < 2) return 1;
+    if (index <= 1) return 1;
 
-    return fib(index - 2) + fib(index - 1);
+    return fib(index - 1) + fib(index - 2);
 }
 
 redisSub.on('message', (channel, message) => {
 
-    const num = parseInt(fib(message));
+    const num = parseInt(fib(message - 1));
 
     redisClient.hset('values', message, num);
 });
