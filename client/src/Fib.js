@@ -26,8 +26,6 @@ class Fib extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        if (this.state.index)
-
         await axios.post('/api/values', {
             index: this.state.index
         });
@@ -35,6 +33,20 @@ class Fib extends Component {
         this.setState({ index: '' });
         this.fetchIndexes();
         this.fetchValues();
+    };
+
+    handleReset = async event => {
+        event.preventDefault();
+
+        console.log('derpy1');
+        await axios.get('/api/values/clear');
+
+        console.log('derpy2');
+
+        this.setState({ 
+            seenIndexes: [],
+            values: {},
+        });
     };
 
     renderSeenIndexes() {
@@ -59,14 +71,17 @@ class Fib extends Component {
     render() {
         return (
             <div className="container text-center my-5">
-                <form onSubmit={this.handleSubmit}>
+                <form 
+                    onSubmit={this.handleSubmit}
+                    onReset={this.handleReset}>
                     <label>Enter index:</label>
                     <input
                         type="number"
                         value={this.state.index}
                         onChange={event => this.setState({ index: event.target.value })} 
                     />
-                    <button>Submit</button>
+                    <button type="submit" value="Submit">Submit</button>
+                    <button type="reset" value="Reset">Reset</button>
                 </form>
 
                 <h3>Seen Indexes:</h3>

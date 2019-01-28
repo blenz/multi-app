@@ -41,8 +41,15 @@ app.get('/values/all', async (req, res) => {
 
 app.get('/values/current', async (req, res) => {
     redisClient.hgetall('values', (err, values) => {
-        res.send(values);
+        return res.send(values);
     })
+})
+
+app.get('/values/clear', async (req, res) => {
+    await redisClient.flushall();
+    await pgClient.query('TRUNCATE values').then(() => {
+        return res.status(200).send();
+    });
 })
 
 app.post('/values', async (req, res) => {
